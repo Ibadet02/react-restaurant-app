@@ -1,0 +1,73 @@
+$activeLinkColor: rgb(0,71,124);
+
+.navbar{
+    width: 12rem;
+    height: 100%;
+    background-color: #fff;
+    overflow-y: auto;
+    &__flex{
+        display: flex;
+        flex-direction: column;
+        gap: 3em;
+        &__links{
+            display: flex;
+            flex-direction: column;
+            gap: 3em;
+            .tool, .support{
+                display: flex;
+                flex-direction: column;
+                gap: .8em;
+                h3{
+
+                }
+                &__links{
+                    display: flex;
+                    flex-direction: column;
+                    gap: .2em;
+                    &__link{
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        position: relative;
+                        a{
+                            display: flex;
+                            align-items: center;
+                            justify-content: left;
+                            gap: .5em;
+                            padding: .8em 0 .8em .6em;
+                            width: 9em;
+                            text-decoration: none;
+                            color: rgb(126,134,151);
+                            border-radius: .8em;
+                            &:hover{
+                                color: rgb(32,48,79);
+                                background-color: rgb(247,247,249);
+                            }
+                            .icon{
+                                font-size: 1em;
+                                width: 1.3em;
+                            }
+                            &.active{
+                                &:hover{
+                                    background-color: initial;
+                                }
+                                & + .link-border{
+                                    background-color: $activeLinkColor;
+                                }
+                            }
+                        }
+                        .link-border{
+                            position: absolute;
+                            width: .4em;
+                            height: 100%;
+                            right: 0;
+                            border-top-left-radius: 1em;
+                            border-bottom-left-radius: 1em;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
