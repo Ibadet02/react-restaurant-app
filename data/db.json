@@ -1,0 +1,33 @@
+{
+    "data":{
+        "servant": ["Azər","Aqşin","Aynur","Babək","Camal","Çinarə","Dadaş","Əli","Fərhad","Fəridə","Habil","Hüseyin","İlqar","Kamil","Kamal","Kənan","Samir","Sənan","Sevinc","Zamin","Zamiq"],
+        "table": 
+        {
+            "A": [1,2,3,4,5,6],
+            "B": [1,2,3,4,5,6],
+            "C": [1,2,3,4,5,6],
+            "D": [1,2,3,4,5,6],
+            "E": [1,2,3,4,5,6],
+            "F": [1,2,3,4,5,6],
+            "G": [1,2,3,4,5,6],
+            "H": [1,2,3,4,5,6],
+            "I": [1,2,3,4,5,6],
+            "K": [1,2,3,4,5,6],
+            "L": [1,2,3,4,5,6],
+            "M": [1,2,3,4,5,6],
+            "N": [1,2,3,4,5,6],
+            "O": [1,2,3,4,5,6],
+            "P": [1,2,3,4,5,6]
+        },
+        "food":{
+            "meal": {
+                "salad":[["Çoban salatı", "3"],["Nağıl salatı", "6"],["Yuxa salatı", "5"],["Yay salatı", "4"],["Mərci salatı", "5"],["Xiyar məzəsi", "2"],["Kartof salatı", "3"],["Brokoli salatı", "4"],["Şuba salatı", "5"],["Noxud salatı", "3"],["Mimoza salatı", "4"],["İsveç salatı", "3"],["Yunan salatı", "3"],["Qara Mirvari salatı", "15"]],
+                "dinner": [["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"]]
+            },
+            "drink": {
+                "alcoholic": [["Yeddi Gözəl", "10"],["Kaqor Şamaxı", "15"],["Pirosmani", "13"],["Ağsu", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"]],
+                "non_alcoholic": [["Coca-Cola", "3"],["Pepsi", "3"],["Sprite", "3"],["Fanta", "3"],["Ayran", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"],["Çoban", "3"]]
+            }
+        }
+    }
+}
