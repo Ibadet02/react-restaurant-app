@@ -1,11 +1,10 @@
 import '../styles/makeOrder.scss'
-import { useReducer, useState } from 'react'
+import { useReducer, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 const reducer = (state, action) => {
-    console.log(state)
     switch (action.type) {
         case 'primary':
             return {
@@ -49,9 +48,25 @@ const reducer = (state, action) => {
                 non_alcoholic: false,
                 [action.payload]: true
             }
+        case 'final':
+            return{
+                table: false,
+                servant: false,
+                food: false,
+                tableNumber: false,
+                meal: false,
+                salad: false,
+                dinner: false,
+                drink: false,
+                alcoholic: false,
+                non_alcoholic: false,
+            }
     }
 }
 const MakeOrder = ({api}) =>{
+    const tableRef = useRef(null)
+    const servantRef = useRef(null)
+    const foodRef = useRef(null)
     const [state, dispatch] = useReducer(reducer, {
         table: false,
         servant: false,
@@ -63,7 +78,69 @@ const MakeOrder = ({api}) =>{
         drink: false,
         alcoholic: false,
         non_alcoholic: false,
-    } )
+    })
+    const [inputValue, setInputValue] = useState({
+        table: '',
+        servant: '',
+        food: {name: '',foodPrice: ''},
+        amount: '',
+        price: ''
+    })
+    const handleInput = (e,dropdown) =>{
+        dispatch({type: dropdown.type,payload: dropdown.payload})
+        if(e.target == tableRef.current){
+            setInputValue(prev=>{
+                return{
+                    ...prev,
+                    table: ''
+                }
+            })
+        }
+        else if(e.target == servantRef.current){
+            setInputValue(prev=>{
+                return{
+                    ...prev,
+                    servant: ''
+                }
+            })
+        }
+    }
+    const tableBack = (dropdown) =>{
+        dispatch({type: dropdown.type,payload: dropdown.payload})
+        setInputValue(prev=>{
+            return{
+                ...prev,
+                table: ''
+            }
+        })
+    }
+    const getTableValue = (dropdown, tableLetter) =>{
+        dispatch({type: dropdown.type,payload: dropdown.payload})
+        setInputValue(prev=>{
+            return {
+                ...prev,
+                table: prev.table+String(tableLetter),
+            }
+        })
+    }
+    const getServantValue = (dropdown,servantName) =>{
+        dispatch({type: dropdown.type, payload: dropdown.payload})
+        setInputValue(prev=>{
+            return{
+                ...prev,
+                servant: servantName
+            }
+        })
+    }
+    const getFoodValue = (dropdown, food) =>{
+        dispatch({type: dropdown.type, payload: dropdown.payload})
+        setInputValue(prev=>{
+            return{
+                ...prev,
+                food: {name: food[0],foodPrice: food[1]}
+            }
+        })
+    }
     return (
         <section className="makeorder">
             <div className='order-details'>
@@ -72,8 +149,11 @@ const MakeOrder = ({api}) =>{
                         <div className='table-group'>
                             <label>Sifarişin aid olduğu masa</label>
                             <input
+                            ref={tableRef}
                             type={'text'}
-                            onClick={()=>dispatch({type: 'primary',payload: 'table'})}
+                            value = {inputValue.table}
+                            onClick={(event)=>handleInput(event,{type: 'primary', payload: 'table'})}
+                            onChange={(e)=>e.target.value = ''}
                             />
                                 <div className={`dropdown dropdown--table ${state.table && 'active'}`}>
                                     <CSSTransition
@@ -88,7 +168,9 @@ const MakeOrder = ({api}) =>{
                                             {
                                                 Object.keys(api.table).map((el, index)=>{
                                                     return (
-                                                    <li onClick={()=>dispatch({type: 'secondary',payload: 'tableNumber'})} key={index}>
+                                                    <li onClick={
+                                                        ()=>getTableValue({type: 'secondary', payload: 'tableNumber'},el)
+                                                        } key={index}>
                                                         <span className='table-letter'>{el}</span>
                                                         <span className='right-icon'><FontAwesomeIcon icon={faCaretRight}/></span>
                                                     </li>)
@@ -104,7 +186,7 @@ const MakeOrder = ({api}) =>{
                                     classNames='menu-secondary'
                                     >
                                         <div className='tableNumber-menu'>
-                                            <div onClick={()=>dispatch({type: 'back', payload: 'table'})}>
+                                            <div onClick={()=>tableBack({type: 'back', payload: 'table'})}>
                                                 <span><FontAwesomeIcon icon={faArrowLeft} /></span>
                                                 <b>Table Group</b>
                                             </div>
@@ -112,7 +194,7 @@ const MakeOrder = ({api}) =>{
                                             {
                                                 api.table.A.map((el, index)=>{
                                                     return (
-                                                    <li key={index}>
+                                                    <li onClick={()=>getTableValue({type: 'final', payload: 'table'},el)} key={index}>
                                                         <span className='table-number'>{el}</span>
                                                     </li>)
                                                 })
@@ -125,8 +207,11 @@ const MakeOrder = ({api}) =>{
                         <div className='servant-group'>
                             <label>Xidmət edəcək şəxs</label>
                             <input
+                            ref={servantRef}
                             type={'text'}
-                            onClick={()=>dispatch({type: 'primary',payload: 'servant'})}
+                            onClick={(event)=>handleInput(event,{type: 'primary', payload: 'servant'})}
+                            value = {inputValue.servant}
+                            onChange={(e)=>e.target.value = ''}
                             />
                                 <div className={`dropdown dropdown--servant ${state.servant && 'active'}`}>
                                     <CSSTransition
@@ -141,7 +226,7 @@ const MakeOrder = ({api}) =>{
                                                 {
                                                     api.servant.map((el,index)=>{
                                                         return (
-                                                            <li key={index}>
+                                                            <li onClick={()=>getServantValue({type: 'final', payload: 'servant'},el)} key={index}>
                                                                 <span className='servant'>{el}</span>
                                                             </li>)
                                                     })
@@ -159,8 +244,11 @@ const MakeOrder = ({api}) =>{
                         <div className='food-group'>
                             <label>Məhsul adı</label>
                             <input
+                            ref={foodRef}
                             type={'text'}
-                            onClick={()=>dispatch({type: 'primary',payload: 'food'})}
+                            onClick={(event)=>handleInput(event,{type: 'primary', payload: 'food'})}
+                            value = {inputValue.food.name}
+                            onChange={(e)=>e.target.value = ''}
                             />
                                 <div className={`dropdown dropdown--food ${state.food && 'active'}`}>
                                     <CSSTransition
@@ -223,7 +311,7 @@ const MakeOrder = ({api}) =>{
                                                 {
                                                     Object.values(api.food.meal.salad).map((el,index)=>{
                                                         return (
-                                                            <li key={index}>
+                                                            <li onClick={()=>getFoodValue({type: 'final', payload: 'food'},el)} key={index}>
                                                                 <span className=''>{el[0]}</span>
                                                             </li>)
                                                     })
@@ -246,7 +334,7 @@ const MakeOrder = ({api}) =>{
                                                 {
                                                     Object.values(api.food.meal.dinner).map((el,index)=>{
                                                         return (
-                                                            <li key={index}>
+                                                            <li onClick={()=>getFoodValue({type: 'final', payload: 'food'},el)} key={index}>
                                                                 <span className=''>{el[0]}</span>
                                                             </li>)
                                                     })
@@ -293,7 +381,7 @@ const MakeOrder = ({api}) =>{
                                                 {
                                                     Object.values(api.food.drink.alcoholic).map((el,index)=>{
                                                         return (
-                                                            <li key={index}>
+                                                            <li onClick={()=>getFoodValue({type: 'final', payload: 'food'},el)} key={index}>
                                                                 <span className=''>{el}</span>
                                                             </li>)
                                                     })
@@ -316,7 +404,7 @@ const MakeOrder = ({api}) =>{
                                                 {
                                                     Object.values(api.food.drink.non_alcoholic).map((el,index)=>{
                                                         return (
-                                                            <li key={index}>
+                                                            <li onClick={()=>getFoodValue({type: 'final', payload: 'food'},el)} key={index}>
                                                                 <span className=''>{el}</span>
                                                             </li>)
                                                     })
