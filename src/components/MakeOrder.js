@@ -1,154 +1,21 @@
 import '../styles/makeOrder.scss'
-import { useReducer, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import OrderInfo from './OrderInfo';
 
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'primary':
-            return {
-                table: false,
-                servant: false,
-                food: false,
-                tableNumber: false,
-                meal: false,
-                salad: false,
-                dinner: false,
-                drink: false,
-                alcoholic: false,
-                non_alcoholic: false,
-                [action.payload]: !state[action.payload]
-            }
-        case 'secondary':
-            return {
-                table: false,
-                servant: false,
-                food: false,
-                tableNumber: false,
-                meal: false,
-                salad: false,
-                dinner: false,
-                drink: false,
-                alcoholic: false,
-                non_alcoholic: false,
-                [action.payload]: true
-            }
-        case 'back':
-            return{
-                table: false,
-                servant: false,
-                food: false,
-                tableNumber: false,
-                meal: false,
-                salad: false,
-                dinner: false,
-                drink: false,
-                alcoholic: false,
-                non_alcoholic: false,
-                [action.payload]: true
-            }
-        case 'final':
-            return{
-                table: false,
-                servant: false,
-                food: false,
-                tableNumber: false,
-                meal: false,
-                salad: false,
-                dinner: false,
-                drink: false,
-                alcoholic: false,
-                non_alcoholic: false,
-            }
-    }
-}
-const MakeOrder = ({api}) =>{
-    const tableRef = useRef(null)
-    const servantRef = useRef(null)
-    const foodRef = useRef(null)
-    const [state, dispatch] = useReducer(reducer, {
-        table: false,
-        servant: false,
-        food: false,
-        tableNumber: false,
-        meal: false,
-        salad: false,
-        dinner: false,
-        drink: false,
-        alcoholic: false,
-        non_alcoholic: false,
-    })
-    const [inputValue, setInputValue] = useState({
-        table: '',
-        servant: '',
-        food: {name: '',foodPrice: ''},
-        amount: '',
-        price: ''
-    })
-    const handleInput = (e,dropdown) =>{
-        dispatch({type: dropdown.type,payload: dropdown.payload})
-        if(e.target == tableRef.current){
-            setInputValue(prev=>{
-                return{
-                    ...prev,
-                    table: ''
-                }
-            })
-        }
-        else if(e.target == servantRef.current){
-            setInputValue(prev=>{
-                return{
-                    ...prev,
-                    servant: ''
-                }
-            })
-        }
-    }
-    const tableBack = (dropdown) =>{
-        dispatch({type: dropdown.type,payload: dropdown.payload})
-        setInputValue(prev=>{
-            return{
-                ...prev,
-                table: ''
-            }
-        })
-    }
-    const getTableValue = (dropdown, tableLetter) =>{
-        dispatch({type: dropdown.type,payload: dropdown.payload})
-        setInputValue(prev=>{
-            return {
-                ...prev,
-                table: prev.table+String(tableLetter),
-            }
-        })
-    }
-    const getServantValue = (dropdown,servantName) =>{
-        dispatch({type: dropdown.type, payload: dropdown.payload})
-        setInputValue(prev=>{
-            return{
-                ...prev,
-                servant: servantName
-            }
-        })
-    }
-    const getFoodValue = (dropdown, food) =>{
-        dispatch({type: dropdown.type, payload: dropdown.payload})
-        setInputValue(prev=>{
-            return{
-                ...prev,
-                food: {name: food[0],foodPrice: food[1]}
-            }
-        })
-    }
+const MakeOrder = ({api, handleInput, tableBack, getTableValue, getServantValue, getFoodValue, state, inputValue, tableRef, servantRef, foodRef, dispatch, createOrder, orderInfo, addOrder, amountRef}) =>{
     return (
         <section className="makeorder">
             <div className='order-details'>
                 <form>
-                    <div className='card create-order'>
+                    <div className={`card create-order ${orderInfo[orderInfo.length-1].currentStep === 1 ? 'active' : 'hide'}`}>
+                        <h2 className='card__name'>Sifarişi yaradın</h2>
                         <div className='table-group'>
                             <label>Sifarişin aid olduğu masa</label>
                             <input
+                            placeholder='Masa'
+                            required
                             ref={tableRef}
                             type={'text'}
                             value = {inputValue.table}
@@ -207,6 +74,8 @@ const MakeOrder = ({api}) =>{
                         <div className='servant-group'>
                             <label>Xidmət edəcək şəxs</label>
                             <input
+                            placeholder='Ofisiant'
+                            required
                             ref={servantRef}
                             type={'text'}
                             onClick={(event)=>handleInput(event,{type: 'primary', payload: 'servant'})}
@@ -237,13 +106,15 @@ const MakeOrder = ({api}) =>{
                                 </div>
                         </div>
                         <div className='create-button'>
-                            <button>Sifarişi yarat</button>
+                            <button onClick={(event)=>createOrder(event)}>Sifarişi Yarat</button>
                         </div>
                     </div>
-                    <div className='card select-food'>
+                    <div className={`card select-food ${orderInfo[orderInfo.length-1].currentStep === 2 ? 'active' : 'hide'}`}>
                         <div className='food-group'>
                             <label>Məhsul adı</label>
                             <input
+                            required
+                            placeholder='Yemək/İçki'
                             ref={foodRef}
                             type={'text'}
                             onClick={(event)=>handleInput(event,{type: 'primary', payload: 'food'})}
@@ -279,8 +150,10 @@ const MakeOrder = ({api}) =>{
                                     classNames='menu-secondary'
                                     >
                                         <div className='meal-menu'>
-                                            <div onClick={()=>dispatch({type: 'back',payload: 'food'})}>
-                                                <span><FontAwesomeIcon icon={faArrowLeft} /></span>
+                                            <div>
+                                                <span 
+                                                onClick={()=>dispatch({type: 'back',payload: 'food'})}
+                                                ><FontAwesomeIcon icon={faArrowLeft} /></span>
                                                 <b>Yemək çeşidləri</b>
                                             </div>
                                             <ul>
@@ -304,7 +177,9 @@ const MakeOrder = ({api}) =>{
                                     >
                                         <div className='meal-menu'>
                                             <div onClick={()=>dispatch({type: 'back',payload: 'meal'})}>
-                                                <span><FontAwesomeIcon icon={faArrowLeft} /></span>
+                                                <span
+                                                onClick={()=>dispatch({type: 'back',payload: 'meal'})}
+                                                ><FontAwesomeIcon icon={faArrowLeft} /></span>
                                                 <b>Salatlar</b>
                                             </div>
                                             <ul>
@@ -326,8 +201,10 @@ const MakeOrder = ({api}) =>{
                                     classNames='menu-secondary'
                                     >
                                         <div className='meal-menu'>
-                                            <div onClick={()=>dispatch({type: 'back',payload: 'food'})}>
-                                                <span><FontAwesomeIcon icon={faArrowLeft} /></span>
+                                            <div>
+                                                <span
+                                                onClick={()=>dispatch({type: 'back',payload: 'food'})}
+                                                ><FontAwesomeIcon icon={faArrowLeft} /></span>
                                                 <b>Yeməklər</b>
                                             </div>
                                             <ul>
@@ -349,8 +226,10 @@ const MakeOrder = ({api}) =>{
                                     classNames='menu-secondary'
                                     >
                                         <div className='drink-menu'>
-                                            <div onClick={()=>dispatch({type: 'back',payload: 'food'})}>
-                                                <span><FontAwesomeIcon icon={faArrowLeft} /></span>
+                                            <div>
+                                                <span
+                                                onClick={()=>dispatch({type: 'back',payload: 'food'})}
+                                                ><FontAwesomeIcon icon={faArrowLeft} /></span>
                                                 <b>İçkilər</b>
                                             </div>
                                             <ul>
@@ -373,8 +252,10 @@ const MakeOrder = ({api}) =>{
                                     classNames='menu-secondary'
                                     >
                                         <div className='meal-menu'>
-                                            <div onClick={()=>dispatch({type: 'back',payload: 'drink'})}>
-                                                <span><FontAwesomeIcon icon={faArrowLeft} /></span>
+                                            <div>
+                                                <span
+                                                onClick={()=>dispatch({type: 'back',payload: 'drink'})}
+                                                ><FontAwesomeIcon icon={faArrowLeft} /></span>
                                                 <b>Spirtli içkilər</b>
                                             </div>
                                             <ul>
@@ -382,7 +263,7 @@ const MakeOrder = ({api}) =>{
                                                     Object.values(api.food.drink.alcoholic).map((el,index)=>{
                                                         return (
                                                             <li onClick={()=>getFoodValue({type: 'final', payload: 'food'},el)} key={index}>
-                                                                <span className=''>{el}</span>
+                                                                <span className=''>{el[0]}</span>
                                                             </li>)
                                                     })
                                                 }
@@ -396,8 +277,10 @@ const MakeOrder = ({api}) =>{
                                     classNames='menu-secondary'
                                     >
                                         <div className='meal-menu'>
-                                            <div onClick={()=>dispatch({type: 'back',payload: 'drink'})}>
-                                                <span><FontAwesomeIcon icon={faArrowLeft} /></span>
+                                            <div>
+                                                <span
+                                                onClick={()=>dispatch({type: 'back',payload: 'drink'})}
+                                                ><FontAwesomeIcon icon={faArrowLeft} /></span>
                                                 <b>Spirtsiz içkilər</b>
                                             </div>
                                             <ul>
@@ -405,7 +288,7 @@ const MakeOrder = ({api}) =>{
                                                     Object.values(api.food.drink.non_alcoholic).map((el,index)=>{
                                                         return (
                                                             <li onClick={()=>getFoodValue({type: 'final', payload: 'food'},el)} key={index}>
-                                                                <span className=''>{el}</span>
+                                                                <span className=''>{el[0]}</span>
                                                             </li>)
                                                     })
                                                 }
@@ -418,7 +301,11 @@ const MakeOrder = ({api}) =>{
                             <div className='amount-group'>
                                 <label>Miqdar</label>
                                 <input
-                                type={'text'}
+                                required
+                                ref={amountRef}
+                                type={'number'}
+                                min = {'0'}
+                                step = {'1'}
                                 />
                             </div>
                             <div className='price-group'>
@@ -427,13 +314,15 @@ const MakeOrder = ({api}) =>{
                             </div>
                         </div>
                         <div className='include'>
-                            <button>Əlavə et</button>
+                            <button onClick={(event)=>addOrder(event)}>Əlavə et</button>
                         </div>
                     </div>
                 </form>
             </div>
             <div className='display-order'>
-
+                <OrderInfo
+                orderInfo = {orderInfo}
+                />
             </div>
         </section>
     )
