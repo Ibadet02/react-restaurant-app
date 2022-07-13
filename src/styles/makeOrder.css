@@ -1,56 +1,83 @@
 .makeorder {
+  margin-left: 12em;
   flex: 1;
 }
-.makeorder .order-details {
+.makeorder__flex {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.makeorder__flex .order-details {
   width: 100%;
   height: 20em;
-  background-color: red;
   display: flex;
   justify-content: center;
+  margin-top: 2em;
 }
-.makeorder .order-details form {
+.makeorder__flex .order-details form {
+  overflow-y: visible;
   width: 40em;
-  background-color: blue;
   display: flex;
   justify-content: center;
   position: relative;
 }
-.makeorder .order-details form .card {
+.makeorder__flex .order-details form .card1-enter {
+  transform: scale(0.8);
+  opacity: 0;
+}
+.makeorder__flex .order-details form .card1-enter-active {
+  transform: scale(1);
+  opacity: 1;
+}
+.makeorder__flex .order-details form .card1-exit {
+  transform: scale(0.8);
+}
+.makeorder__flex .order-details form .card1-exit-active {
+  opacity: 0;
+}
+.makeorder__flex .order-details form .card2-enter {
+  transform: translateX(110%) scale(0.8);
+  opacity: 0;
+}
+.makeorder__flex .order-details form .card2-enter-active {
+  transform: translateX(0%) scale(1);
+  opacity: 1;
+}
+.makeorder__flex .order-details form .card2-exit {
+  transform: scale(1);
+}
+.makeorder__flex .order-details form .card2-exit-active {
+  transform: translateX(110%) scale(0.8);
+  opacity: 0;
+}
+.makeorder__flex .order-details form .card {
   width: 25em;
-  background-color: #fff;
-  border: 1px solid #333;
+  background-color: rgb(240, 239, 239);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   border-radius: 0.5em;
-  padding: 0.5em;
+  padding: 1em;
   display: flex;
   flex-direction: column;
   gap: 1.5em;
   height: 100%;
-  display: none;
+  transition: 800ms;
+  position: absolute;
 }
-.makeorder .order-details form .card.active {
-  display: flex;
-  -webkit-animation: slide 500ms 500ms ease-in-out both;
-          animation: slide 500ms 500ms ease-in-out both;
-}
-.makeorder .order-details form .card.hide {
-  -webkit-animation: fade 500ms ease-in-out forwards;
-          animation: fade 500ms ease-in-out forwards;
-}
-.makeorder .order-details form .card__name {
+.makeorder__flex .order-details form .card__name {
   text-align: center;
 }
-.makeorder .order-details form .card .table-group, .makeorder .order-details form .card .servant-group, .makeorder .order-details form .card .food-group {
+.makeorder__flex .order-details form .card .table-group, .makeorder__flex .order-details form .card .servant-group, .makeorder__flex .order-details form .card .food-group {
   display: flex;
   flex-direction: column;
   gap: 0.25em;
   position: relative;
 }
-.makeorder .order-details form .card .table-group label, .makeorder .order-details form .card .servant-group label, .makeorder .order-details form .card .food-group label {
+.makeorder__flex .order-details form .card .table-group label, .makeorder__flex .order-details form .card .servant-group label, .makeorder__flex .order-details form .card .food-group label {
   font-weight: bold;
   font-size: 0.8em;
   color: #333;
 }
-.makeorder .order-details form .card .table-group input, .makeorder .order-details form .card .servant-group input, .makeorder .order-details form .card .food-group input {
+.makeorder__flex .order-details form .card .table-group input, .makeorder__flex .order-details form .card .servant-group input, .makeorder__flex .order-details form .card .food-group input {
   border-radius: 0.25em;
   border: 1px solid #ccc;
   font-size: 1em;
@@ -58,110 +85,185 @@
   cursor: pointer;
   outline: none;
 }
-.makeorder .order-details form .card .table-group .dropdown, .makeorder .order-details form .card .servant-group .dropdown, .makeorder .order-details form .card .food-group .dropdown {
+.makeorder__flex .order-details form .card .table-group .dropdown, .makeorder__flex .order-details form .card .servant-group .dropdown, .makeorder__flex .order-details form .card .food-group .dropdown {
   position: absolute;
   right: 0;
   top: 4.425em;
-  background-color: red;
+  background-color: #fff;
   width: 100%;
   max-height: 10em;
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 10;
-  border-radius: 0.5em;
+  border-radius: 0.9em;
 }
-.makeorder .order-details form .card .table-group .dropdown .table-menu, .makeorder .order-details form .card .table-group .dropdown .tableNumber-menu, .makeorder .order-details form .card .table-group .dropdown .servant-menu, .makeorder .order-details form .card .table-group .dropdown .meal-menu, .makeorder .order-details form .card .servant-group .dropdown .table-menu, .makeorder .order-details form .card .servant-group .dropdown .tableNumber-menu, .makeorder .order-details form .card .servant-group .dropdown .servant-menu, .makeorder .order-details form .card .servant-group .dropdown .meal-menu, .makeorder .order-details form .card .food-group .dropdown .table-menu, .makeorder .order-details form .card .food-group .dropdown .tableNumber-menu, .makeorder .order-details form .card .food-group .dropdown .servant-menu, .makeorder .order-details form .card .food-group .dropdown .meal-menu {
+.makeorder__flex .order-details form .card .table-group .dropdown::-webkit-scrollbar, .makeorder__flex .order-details form .card .servant-group .dropdown::-webkit-scrollbar, .makeorder__flex .order-details form .card .food-group .dropdown::-webkit-scrollbar {
+  width: 0.9em;
+}
+.makeorder__flex .order-details form .card .table-group .dropdown::-webkit-scrollbar-track, .makeorder__flex .order-details form .card .servant-group .dropdown::-webkit-scrollbar-track, .makeorder__flex .order-details form .card .food-group .dropdown::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+.makeorder__flex .order-details form .card .table-group .dropdown::-webkit-scrollbar-thumb, .makeorder__flex .order-details form .card .servant-group .dropdown::-webkit-scrollbar-thumb, .makeorder__flex .order-details form .card .food-group .dropdown::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+.makeorder__flex .order-details form .card .table-group .dropdown .menu, .makeorder__flex .order-details form .card .servant-group .dropdown .menu, .makeorder__flex .order-details form .card .food-group .dropdown .menu {
   width: 100%;
+  margin-right: 0.9em;
 }
-.makeorder .order-details form .card .table-group .dropdown li, .makeorder .order-details form .card .servant-group .dropdown li, .makeorder .order-details form .card .food-group .dropdown li {
-  list-style: none;
-  padding: 0.3em 0.2em;
-  border-top: 1px solid #333;
+.makeorder__flex .order-details form .card .table-group .dropdown .menu__name, .makeorder__flex .order-details form .card .servant-group .dropdown .menu__name, .makeorder__flex .order-details form .card .food-group .dropdown .menu__name {
+  padding: 0.4em 0.5em;
+  border-bottom: 1px solid black;
+}
+.makeorder__flex .order-details form .card .table-group .dropdown .menu__name--back, .makeorder__flex .order-details form .card .servant-group .dropdown .menu__name--back, .makeorder__flex .order-details form .card .food-group .dropdown .menu__name--back {
+  display: flex;
+  align-items: center;
+  padding: 0.4em 0.5em;
+  border-bottom: 1px solid black;
+  gap: 0.4em;
+}
+.makeorder__flex .order-details form .card .table-group .dropdown .menu__name--back span, .makeorder__flex .order-details form .card .servant-group .dropdown .menu__name--back span, .makeorder__flex .order-details form .card .food-group .dropdown .menu__name--back span {
+  display: flex;
+  padding: 0.5em;
+  background-color: #EEE;
+  border-radius: 50%;
   cursor: pointer;
 }
-.makeorder .order-details form .card .table-group .dropdown .menu-primary-enter, .makeorder .order-details form .card .servant-group .dropdown .menu-primary-enter, .makeorder .order-details form .card .food-group .dropdown .menu-primary-enter {
+.makeorder__flex .order-details form .card .table-group .dropdown .menu__name--back span:hover, .makeorder__flex .order-details form .card .servant-group .dropdown .menu__name--back span:hover, .makeorder__flex .order-details form .card .food-group .dropdown .menu__name--back span:hover {
+  background-color: #CCC;
+}
+.makeorder__flex .order-details form .card .table-group .dropdown .menu__name--back span:active, .makeorder__flex .order-details form .card .servant-group .dropdown .menu__name--back span:active, .makeorder__flex .order-details form .card .food-group .dropdown .menu__name--back span:active {
+  background-color: #AAA;
+}
+.makeorder__flex .order-details form .card .table-group .dropdown .menu ul .select, .makeorder__flex .order-details form .card .servant-group .dropdown .menu ul .select, .makeorder__flex .order-details form .card .food-group .dropdown .menu ul .select {
+  list-style: none;
+  padding: 0.6em 0.5em;
+  cursor: pointer;
+  transition: 500ms;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  margin: 0.1em 0.3em;
+  border: none;
+  border-radius: 1em;
+}
+.makeorder__flex .order-details form .card .table-group .dropdown .menu ul .select:hover, .makeorder__flex .order-details form .card .servant-group .dropdown .menu ul .select:hover, .makeorder__flex .order-details form .card .food-group .dropdown .menu ul .select:hover {
+  background-color: #E2EEFF;
+  color: #1165E9;
+}
+.makeorder__flex .order-details form .card .table-group .dropdown .menu ul .select-arrow, .makeorder__flex .order-details form .card .servant-group .dropdown .menu ul .select-arrow, .makeorder__flex .order-details form .card .food-group .dropdown .menu ul .select-arrow {
+  list-style: none;
+  padding: 0.6em 0.5em;
+  cursor: pointer;
+  transition: 500ms;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  margin: 0.1em 0.3em;
+  border: none;
+  border-radius: 1em;
+  justify-content: space-between;
+}
+.makeorder__flex .order-details form .card .table-group .dropdown .menu ul .select-arrow:hover, .makeorder__flex .order-details form .card .servant-group .dropdown .menu ul .select-arrow:hover, .makeorder__flex .order-details form .card .food-group .dropdown .menu ul .select-arrow:hover {
+  background-color: #E2EEFF;
+  color: #1165E9;
+}
+.makeorder__flex .order-details form .card .table-group .dropdown .menu-primary-enter, .makeorder__flex .order-details form .card .servant-group .dropdown .menu-primary-enter, .makeorder__flex .order-details form .card .food-group .dropdown .menu-primary-enter {
   transform: translateX(-110%);
 }
-.makeorder .order-details form .card .table-group .dropdown .menu-primary-enter-active, .makeorder .order-details form .card .servant-group .dropdown .menu-primary-enter-active, .makeorder .order-details form .card .food-group .dropdown .menu-primary-enter-active {
+.makeorder__flex .order-details form .card .table-group .dropdown .menu-primary-enter-active, .makeorder__flex .order-details form .card .servant-group .dropdown .menu-primary-enter-active, .makeorder__flex .order-details form .card .food-group .dropdown .menu-primary-enter-active {
   transform: translateX(0%);
   transition: 500ms ease;
 }
-.makeorder .order-details form .card .table-group .dropdown .menu-primary-exit, .makeorder .order-details form .card .servant-group .dropdown .menu-primary-exit, .makeorder .order-details form .card .food-group .dropdown .menu-primary-exit {
+.makeorder__flex .order-details form .card .table-group .dropdown .menu-primary-exit, .makeorder__flex .order-details form .card .servant-group .dropdown .menu-primary-exit, .makeorder__flex .order-details form .card .food-group .dropdown .menu-primary-exit {
   position: absolute;
 }
-.makeorder .order-details form .card .table-group .dropdown .menu-primary-exit-active, .makeorder .order-details form .card .servant-group .dropdown .menu-primary-exit-active, .makeorder .order-details form .card .food-group .dropdown .menu-primary-exit-active {
+.makeorder__flex .order-details form .card .table-group .dropdown .menu-primary-exit-active, .makeorder__flex .order-details form .card .servant-group .dropdown .menu-primary-exit-active, .makeorder__flex .order-details form .card .food-group .dropdown .menu-primary-exit-active {
   transform: translateX(-110%);
   transition: 500ms ease;
 }
-.makeorder .order-details form .card .table-group .dropdown .menu-secondary-enter, .makeorder .order-details form .card .servant-group .dropdown .menu-secondary-enter, .makeorder .order-details form .card .food-group .dropdown .menu-secondary-enter {
+.makeorder__flex .order-details form .card .table-group .dropdown .menu-secondary-enter, .makeorder__flex .order-details form .card .servant-group .dropdown .menu-secondary-enter, .makeorder__flex .order-details form .card .food-group .dropdown .menu-secondary-enter {
   transform: translateX(110%);
 }
-.makeorder .order-details form .card .table-group .dropdown .menu-secondary-enter-active, .makeorder .order-details form .card .servant-group .dropdown .menu-secondary-enter-active, .makeorder .order-details form .card .food-group .dropdown .menu-secondary-enter-active {
+.makeorder__flex .order-details form .card .table-group .dropdown .menu-secondary-enter-active, .makeorder__flex .order-details form .card .servant-group .dropdown .menu-secondary-enter-active, .makeorder__flex .order-details form .card .food-group .dropdown .menu-secondary-enter-active {
   transform: translateX(0%);
   transition: 500ms ease;
 }
-.makeorder .order-details form .card .table-group .dropdown .menu-secondary-exit, .makeorder .order-details form .card .servant-group .dropdown .menu-secondary-exit, .makeorder .order-details form .card .food-group .dropdown .menu-secondary-exit {
+.makeorder__flex .order-details form .card .table-group .dropdown .menu-secondary-exit, .makeorder__flex .order-details form .card .servant-group .dropdown .menu-secondary-exit, .makeorder__flex .order-details form .card .food-group .dropdown .menu-secondary-exit {
   position: absolute;
 }
-.makeorder .order-details form .card .table-group .dropdown .menu-secondary-exit-active, .makeorder .order-details form .card .servant-group .dropdown .menu-secondary-exit-active, .makeorder .order-details form .card .food-group .dropdown .menu-secondary-exit-active {
+.makeorder__flex .order-details form .card .table-group .dropdown .menu-secondary-exit-active, .makeorder__flex .order-details form .card .servant-group .dropdown .menu-secondary-exit-active, .makeorder__flex .order-details form .card .food-group .dropdown .menu-secondary-exit-active {
   transform: translateX(-110%);
   transition: 500ms ease;
 }
-.makeorder .order-details form .card .create-button {
+.makeorder__flex .order-details form .card .pricing {
+  display: flex;
+  gap: 2em;
+}
+.makeorder__flex .order-details form .card .pricing .amount-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  width: 5em;
+}
+.makeorder__flex .order-details form .card .pricing .amount-group input {
+  height: 2em;
+  padding: 0.1em;
+}
+.makeorder__flex .order-details form .card .pricing .price-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 1.1em;
+}
+.makeorder__flex .order-details form .card .include {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+.makeorder__flex .order-details form .card .include button {
+  cursor: pointer;
+  color: #fff;
+  padding: 0.3em 0.3em;
+  font-weight: 600;
+  border: none;
+}
+.makeorder__flex .order-details form .card .include .edit {
+  display: flex;
+  gap: 0.1em;
+  background-color: #008CBA;
+}
+.makeorder__flex .order-details form .card .include .edit:active {
+  position: relative;
+  top: 1px;
+}
+.makeorder__flex .order-details form .card .include .edit.disabled {
+  background-color: rgba(0, 140, 186, 0.5);
+  cursor: default;
+}
+.makeorder__flex .order-details form .card .include .edit.disabled:active {
+  position: static;
+}
+.makeorder__flex .order-details form .card .include .add {
+  background-color: #4CAF50;
+}
+.makeorder__flex .order-details form .card .include .add:active {
+  position: relative;
+  top: 1px;
+}
+.makeorder__flex .order-details form .card .create-button {
   text-align: center;
 }
-.makeorder .order-details form .card .create-button button {
+.makeorder__flex .order-details form .card .create-button button {
   width: 7em;
   padding: 0.625em 0.3125em;
   font-weight: bold;
 }
-
-@-webkit-keyframes slide {
-  0% {
-    transform: translateX(200%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slide {
-  0% {
-    transform: translateX(200%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-@-webkit-keyframes fade {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(0.75);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(0);
-    opacity: 0;
-  }
-}
-@keyframes fade {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(0.75);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(0);
-    opacity: 0;
-  }
+.makeorder__flex .display-order {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  padding: 1em;
 }/*# sourceMappingURL=makeOrder.css.map */

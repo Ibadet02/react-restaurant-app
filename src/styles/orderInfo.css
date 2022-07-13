@@ -1,0 +1,74 @@
+@import url(//db.onlinewebfonts.com/c/040a78b437acd0433612f92e61d04a1b?family=Gilroy-Medium);
+.order-infos {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.order-infos__flex {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  width: 100%;
+}
+.order-infos__flex .order-info__flex {
+  display: flex;
+  flex-direction: column;
+}
+.order-infos__flex .order-info__flex--middle {
+  position: relative;
+}
+.order-infos__flex .order-info__flex--middle .delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 39px;
+  width: 39px;
+  font-size: 1em;
+  font-weight: 600;
+  color: #fff;
+  background-color: #f44336;
+  cursor: pointer;
+  border: none;
+}
+.order-infos__flex .order-info__flex--middle .delete:active {
+  transform: scale(0.9);
+}
+.order-infos__flex .order-info__flex--middle table {
+  font-family: GilroyMedium;
+  border-collapse: collapse;
+  width: 100%;
+}
+.order-infos__flex .order-info__flex--middle table tbody tr th {
+  text-align: left;
+  padding: 0.625em 0.5em;
+}
+.order-infos__flex .order-info__flex--middle table tbody tr td {
+  border: 1px solid #ddd;
+  padding: 0.625em 0.5em;
+}
+.order-infos__flex .order-info__flex--middle table tbody tr td.td-end {
+  padding: 0 !important;
+}
+.order-infos__flex .order-info__flex--middle table tbody tr td.td-end .end {
+  width: 100%;
+  height: 37.4px;
+  cursor: pointer;
+  background-color: #f44336;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.4em;
+}
+.order-infos__flex .order-info__flex--middle table tbody tr td.td-end .end:active {
+  position: relative;
+  top: 1px;
+}
+.order-infos__flex .order-info__flex--middle table tbody tr td.td-end .end.disabled {
+  cursor: default;
+  background-color: rgba(244, 67, 54, 0.5);
+}
+.order-infos__flex .order-info__flex--middle table tbody tr td.td-end .end.disabled:active {
+  position: static;
+}/*# sourceMappingURL=orderInfo.css.map */

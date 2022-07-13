@@ -1,0 +1,87 @@
+.orders{
+    width: 100%;
+    margin-left: 12em;
+    position: relative;
+    &__flex{
+        padding: 2em;
+        table{
+            font-family: GilroyMedium;
+            border-collapse: collapse;
+            width: 100%;
+            tbody{
+                tr{
+                    th{
+                        text-align: left;
+                        padding: 0.625em .5em;
+                    }
+                    td{
+                        border: 1px solid #ddd;
+                        padding: 0.625em .5em;
+                        &.td-end{
+                            padding: 0 !important;
+                            .end{
+                                width: 100%;
+                                height: 37.4px;
+                                cursor: pointer;
+                                background-color: #f44336;
+                                border: none;
+                                color: #fff;
+                                font-weight: 700;
+                                font-size: 1.4em;
+                                &:active{
+                                    position: relative;
+                                    top: 1px;
+                                }
+                                &.disabled{
+                                    cursor: default;
+                                    background-color: rgba(244, 67, 54, .5);
+                                    &:active{
+                                        position: static;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .more-info{
+        transition: 300ms;
+        scale: 1;
+        background-color: rgba(0,0,0,.6);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &__flex{
+            background-color: white;
+            overflow: hidden;
+            z-index: 100;
+            transition: 300ms;
+            transform: scale(0);
+            position: relative;
+            // width: 25em;
+            // height: 20em;
+            .exit{
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
+        &.closed{
+            opacity: 0;
+            pointer-events: none;
+        }
+        &.open{
+            pointer-events: all;
+            .more-info__flex{
+                transform: scale(1);
+            }
+        }
+    }
+}

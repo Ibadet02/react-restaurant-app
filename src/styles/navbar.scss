@@ -5,6 +5,10 @@ $activeLinkColor: rgb(0,71,124);
     height: 100%;
     background-color: #fff;
     overflow-y: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
     &__flex{
         display: flex;
         flex-direction: column;

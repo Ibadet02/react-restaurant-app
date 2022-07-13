@@ -8,6 +8,24 @@ import Orders from './components/Orders';
 import MakeOrder from './components/MakeOrder';
 import Help from './components/Help';
 import Feedback from './components/Feedback';
+
+const INITIAL_ORDER_INFO = {
+  tableName: '',
+  servantName: '',
+  food: [],
+  orderDate: '',
+  currentStep: 1,
+  dataOrder: 0,
+  ended: false,
+  locked: false,
+  cancelled: false,
+}
+const INITIAL_INPUT_VALUE = {
+  table: '',
+  servant: '',
+  food: {name: '',foodPrice: ''},
+  amount: '',
+}
 const reducer = (state, action) => {
   switch (action.type) {
       case 'primary':
@@ -65,6 +83,10 @@ const reducer = (state, action) => {
               alcoholic: false,
               non_alcoholic: false,
           }
+      default: 
+          return {
+            ...state
+          }
   }
 }
 function App() {
@@ -78,11 +100,11 @@ function App() {
       if(event.target === tableRef.current || event.target === servantRef.current || event.target === foodRef.current){
         return
       }else{
-        if(event.target !== tableRef.current.nextElementSibling){
-          // console.log('target = ',event.target)
-          // console.log('sibling = ',tableRef.current.nextElementSibling)
-          // dispatch({type:'final'})
-        }
+        // if(event.target !== tableRef.current.nextElementSibling){
+        //   console.log('target = ',event.target)
+        //   console.log('sibling = ',tableRef.current.nextElementSibling)
+        //   dispatch({type:'final'})
+        // }
       }
     },true)
     fetch('http://localhost:8000/data')
@@ -103,16 +125,10 @@ function App() {
       alcoholic: false,
       non_alcoholic: false,
   })
-  const [inputValue, setInputValue] = useState({
-    table: '',
-    servant: '',
-    food: {name: '',foodPrice: ''},
-    amount: '',
-    price: '',
-})
+  const [inputValue, setInputValue] = useLocalStorage('inputValue',INITIAL_INPUT_VALUE)
 const handleInput = (e,dropdown) =>{
   dispatch({type: dropdown.type,payload: dropdown.payload})
-  if(e.target == tableRef.current){
+  if(e.target === tableRef.current){
       setInputValue(prev=>{
           return{
               ...prev,
@@ -120,7 +136,7 @@ const handleInput = (e,dropdown) =>{
           }
       })
   }
-  else if(e.target == servantRef.current){
+  else if(e.target === servantRef.current){
       setInputValue(prev=>{
           return{
               ...prev,
@@ -165,34 +181,39 @@ const getFoodValue = (dropdown, food) =>{
       }
   })
 }
-const [orderInfo, setOrderInfo] = useLocalStorage('orderInfo', [{
-  tableName: '',
-  servantName: '',
-  food: [
-    // {
-    //   name: '',
-    //   amount: '',
-    //   price: ''
-    // }
-  ],
-  orderDate: '',
-  ended: false,
-  currentStep: 1,
-  dataOrder: 0
-}])
+const onlyNumbers = (event)=>{
+  if(!(/^[1-9]*$/).test(event.target.value)){
+    event.target.value = ''
+    return
+  }
+  setInputValue(prev=>{
+    return {
+      ...prev,
+      amount: event.target.value
+    }
+  })
+}
+const [orderInfo, setOrderInfo] = useLocalStorage('orderInfo', [INITIAL_ORDER_INFO])
 const createOrder = (event) =>{
   event.preventDefault()
   const inputs = [tableRef.current, servantRef.current]
   const allValid = inputs.every(input=> input.reportValidity())
   if(allValid){
     setOrderInfo(prev=>{
-      return [{
-        ...prev[orderInfo.length - 1],
-        tableName: inputValue.table,
-        servantName: inputValue.servant,
-        currentStep: 2,
-        dataOrder: orderInfo.length - 1
-      }]
+      const newState = prev.map((obj, index)=>{
+        if(index === orderInfo.length - 1) {
+            return { 
+              ...obj,
+              tableName: inputValue.table,
+              servantName: inputValue.servant,
+              currentStep: 2
+            }
+        }
+        else {
+          return {...obj}
+        }
+      })
+      return newState
     })
   }
 }
@@ -200,30 +221,103 @@ const addOrder = (event) =>{
   event.preventDefault()
   const inputs = [foodRef.current, amountRef.current]
   const allValid = inputs.every(input=> input.reportValidity())
-  if(foodRef.current.checkValidity()){
+  if(allValid){
     setOrderInfo(prev=>{
-      return [{
-        ...prev[orderInfo.length - 1],
-        food: [
-          ...prev[orderInfo.length - 1].food,
-        {
-          name: inputValue.food.name,
-          amount: inputValue.amount,
-          price: inputValue.food.foodPrice,
-        }],
-      }]
+      const newState = prev.map((obj, index)=>{
+      if(index === orderInfo.length - 1) {
+          return { 
+            ...obj,
+            locked: true,
+            food: [...prev[orderInfo.length - 1].food,
+          {
+            name: inputValue.food.name,
+            amount: inputValue.amount,
+            price: inputValue.food.foodPrice,
+            orderTime: Date.now(),
+            wait: 0,
+            given: false,
+            cancelled: false
+          }
+          ]}
+      }
+      else {
+        return {...obj}
+      }
+      })
+      return newState
+    })
+    setInputValue(prev=>{
+      return {
+        ...prev,
+        food: {
+          name: '',
+          foodPrice: ''
+        },
+        amount: ''
+      }
     })
   }
 }
-console.log(orderInfo)
+const endOrder = (orderIndex) =>{
+  setInputValue(prev=>{
+    return {
+      ...prev,
+      ...INITIAL_INPUT_VALUE
+    }
+  })
+  setOrderInfo(prev=>{
+    const newState = prev.map((el,index)=>{
+      if(index === orderIndex){
+        return {
+          ...el,
+          ended: true
+        }
+      }else{
+        return el
+      }
+    })
+    newState.push({...INITIAL_ORDER_INFO})
+    return newState
+  })
+}
+const editFirstSlide = (event) =>{
+  event.preventDefault()
+  setOrderInfo(prev=>{
+    const newState = prev.map((el, index)=>{
+      if(index === prev.length - 1) return {...el, currentStep: 1}
+      return el
+    })
+    return newState
+    return [{
+      ...prev[orderInfo.length - 1],
+      currentStep: 1
+    }]
+  })
+}
+const deleteOrder = (orderIndex) =>{
+  setInputValue(()=>{
+    return {
+      ...INITIAL_INPUT_VALUE
+    }
+  })
+  setOrderInfo(prev=>{
+    const newState = prev.filter((el, index)=>orderIndex !== index)
+    if(newState.length === 0) return [INITIAL_ORDER_INFO]
+    return newState
+  })
+}
   return (
     <Router>
       <div className='App'>
         <div className='App__flex'>
           <Navbar />
           <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/sifarisler' element={<Orders />} />
+            <Route path='/' element={<Home 
+            orderInfo = {orderInfo}
+            />} />
+            <Route path='/sifarisler' element={<Orders
+            orderInfo = {orderInfo}
+            />} />
             <Route path='/sifarisver' element={server && <MakeOrder
             api = {server}
             handleInput = {handleInput}
@@ -234,6 +328,10 @@ console.log(orderInfo)
             dispatch = {dispatch}
             createOrder = {event=>createOrder(event)}
             addOrder = {event => addOrder(event)}
+            onlyNumbers = {event => onlyNumbers(event)}
+            editFirstSlide = {event =>editFirstSlide(event)}
+            endOrder = {endOrder}
+            deleteOrder = {deleteOrder}
             state = {state}
             inputValue = {inputValue}
             tableRef = {tableRef}

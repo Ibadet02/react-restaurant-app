@@ -1,0 +1,32 @@
+.home{
+    margin-left: 12em;
+    height: 100vh;
+    width: 100%;
+    background-color: #ECECF1;
+    &__flex{
+        display: flex;
+        flex-direction: column;
+        .daily-result{
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10em;
+            .ended-orders, .income{
+                width: 20em;
+                height: 7em;
+                background-color: #fff;
+                border-radius: 1em;
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+                transition: 500ms;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                &:hover{
+                    transform: translateY(-1.4em);
+                }
+            }
+            .income{
+
+            }
+        }
+    }
+}
