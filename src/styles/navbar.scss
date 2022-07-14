@@ -1,7 +1,7 @@
 $activeLinkColor: rgb(0,71,124);
-
+$navbarWidth: 12rem;
 .navbar{
-    width: 12rem;
+    width: $navbarWidth;
     height: 100%;
     background-color: #fff;
     overflow-y: auto;

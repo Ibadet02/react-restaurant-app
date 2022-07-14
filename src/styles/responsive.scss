@@ -1,0 +1,51 @@
+// @import './navbar.scss';
+@media(max-width: 1535px){
+    body{
+        font-size: 15px;
+    }
+}
+@media(max-width: 1015px){
+    @import './navbar.scss';
+    $navbarWidth: 4rem;
+    body{
+        font-size: 14px;
+    }
+    .navbar{
+        width: $navbarWidth;
+    }
+    .home{
+        margin-left: $navbarWidth;
+    }
+    .orders{
+        margin-left: $navbarWidth;
+    }
+    .makeorder{
+        margin-left: $navbarWidth;
+    }
+    .help{
+        margin-left: $navbarWidth;
+    }
+    .feedback{
+
+    }
+    .navbar__flex__links .tool__links__link a, .navbar__flex__links .support__links__link a{
+        justify-content: center;
+        padding-left: 0;
+        .icon{
+            display: flex;
+            justify-content: center;
+        }
+        .link-text{
+            display: none;
+        }
+    }
+}
+@media(max-width: 730px){
+    body{
+        font-size: 13px;
+    }
+    .order-info{
+        width: 638px;
+        overflow-x: scroll;
+    }
+}

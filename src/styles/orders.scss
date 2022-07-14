@@ -1,6 +1,7 @@
+@import './navbar.scss';
 .orders{
     width: 100%;
-    margin-left: 12em;
+    margin-left: $navbarWidth;
     position: relative;
     &__flex{
         padding: 2em;

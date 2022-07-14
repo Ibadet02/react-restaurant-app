@@ -1,0 +1,114 @@
+@media (max-width: 1535px) {
+  body {
+    font-size: 15px;
+  }
+}
+@media (max-width: 1015px) {
+  .navbar {
+    width: 12rem;
+    height: 100%;
+    background-color: #fff;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+  }
+  .navbar__flex {
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+  }
+  .navbar__flex__links {
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+  }
+  .navbar__flex__links .tool, .navbar__flex__links .support {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+  }
+  .navbar__flex__links .tool__links, .navbar__flex__links .support__links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+  }
+  .navbar__flex__links .tool__links__link, .navbar__flex__links .support__links__link {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+  .navbar__flex__links .tool__links__link a, .navbar__flex__links .support__links__link a {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 0.5em;
+    padding: 0.8em 0 0.8em 0.6em;
+    width: 9em;
+    text-decoration: none;
+    color: rgb(126, 134, 151);
+    border-radius: 0.8em;
+  }
+  .navbar__flex__links .tool__links__link a:hover, .navbar__flex__links .support__links__link a:hover {
+    color: rgb(32, 48, 79);
+    background-color: rgb(247, 247, 249);
+  }
+  .navbar__flex__links .tool__links__link a .icon, .navbar__flex__links .support__links__link a .icon {
+    font-size: 1em;
+    width: 1.3em;
+  }
+  .navbar__flex__links .tool__links__link a.active:hover, .navbar__flex__links .support__links__link a.active:hover {
+    background-color: initial;
+  }
+  .navbar__flex__links .tool__links__link a.active + .link-border, .navbar__flex__links .support__links__link a.active + .link-border {
+    background-color: rgb(0, 71, 124);
+  }
+  .navbar__flex__links .tool__links__link .link-border, .navbar__flex__links .support__links__link .link-border {
+    position: absolute;
+    width: 0.4em;
+    height: 100%;
+    right: 0;
+    border-top-left-radius: 1em;
+    border-bottom-left-radius: 1em;
+  }
+  body {
+    font-size: 14px;
+  }
+  .navbar {
+    width: 4rem;
+  }
+  .home {
+    margin-left: 4rem;
+  }
+  .orders {
+    margin-left: 4rem;
+  }
+  .makeorder {
+    margin-left: 4rem;
+  }
+  .help {
+    margin-left: 4rem;
+  }
+  .navbar__flex__links .tool__links__link a, .navbar__flex__links .support__links__link a {
+    justify-content: center;
+    padding-left: 0;
+  }
+  .navbar__flex__links .tool__links__link a .icon, .navbar__flex__links .support__links__link a .icon {
+    display: flex;
+    justify-content: center;
+  }
+  .navbar__flex__links .tool__links__link a .link-text, .navbar__flex__links .support__links__link a .link-text {
+    display: none;
+  }
+}
+@media (max-width: 730px) {
+  body {
+    font-size: 13px;
+  }
+  .order-info {
+    width: 638px;
+    overflow-x: scroll;
+  }
+}/*# sourceMappingURL=responsive.css.map */

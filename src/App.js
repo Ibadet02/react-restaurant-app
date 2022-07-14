@@ -2,12 +2,13 @@ import { useEffect, useState, useReducer, useRef } from 'react';
 import useLocalStorage from './hooks/localStorage';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import './styles/app.scss';
-import Navbar from './components/Navbar.js'
+import Navbar from './components/Navbar.js';
 import Home from './components/Home';
 import Orders from './components/Orders';
 import MakeOrder from './components/MakeOrder';
 import Help from './components/Help';
 import Feedback from './components/Feedback';
+import './styles/responsive.scss';
 
 const INITIAL_ORDER_INFO = {
   tableName: '',
@@ -19,6 +20,7 @@ const INITIAL_ORDER_INFO = {
   ended: false,
   locked: false,
   cancelled: false,
+  timer: 0
 }
 const INITIAL_INPUT_VALUE = {
   table: '',
@@ -125,7 +127,7 @@ function App() {
       alcoholic: false,
       non_alcoholic: false,
   })
-  const [inputValue, setInputValue] = useLocalStorage('inputValue',INITIAL_INPUT_VALUE)
+const [inputValue, setInputValue] = useLocalStorage('inputValue',INITIAL_INPUT_VALUE)
 const handleInput = (e,dropdown) =>{
   dispatch({type: dropdown.type,payload: dropdown.payload})
   if(e.target === tableRef.current){
@@ -270,7 +272,7 @@ const endOrder = (orderIndex) =>{
       if(index === orderIndex){
         return {
           ...el,
-          ended: true
+          ended: true,
         }
       }else{
         return el
@@ -288,10 +290,6 @@ const editFirstSlide = (event) =>{
       return el
     })
     return newState
-    return [{
-      ...prev[orderInfo.length - 1],
-      currentStep: 1
-    }]
   })
 }
 const deleteOrder = (orderIndex) =>{

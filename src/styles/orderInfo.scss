@@ -1,8 +1,7 @@
-@import url(//db.onlinewebfonts.com/c/040a78b437acd0433612f92e61d04a1b?family=Gilroy-Medium);
 .order-infos{
     width: 100%;
     height: 100%;
-    overflow-y: auto;
+    // overflow-y: auto;
     // background-color: pink;
     display: flex;
     flex-direction: column;
@@ -36,8 +35,8 @@
                         position: absolute;
                         top: 0;
                         right: 0;
-                        height: 39px;
-                        width: 39px;
+                        height: 2.4375em;
+                        width: 2.4375em;
                         font-size: 1em;
                         font-weight: 600;
                         color: #fff;

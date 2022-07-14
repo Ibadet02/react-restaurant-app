@@ -1,5 +1,6 @@
+@import './navbar.scss';
 .home{
-    margin-left: 12em;
+    margin-left: $navbarWidth;
     height: 100vh;
     width: 100%;
     background-color: #ECECF1;

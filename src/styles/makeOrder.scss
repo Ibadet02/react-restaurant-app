@@ -1,3 +1,4 @@
+@import './navbar.scss';
 $inputPadding: 1em;
 $dropdownScrollbarWidth: .9em;
 @mixin menu-list {
@@ -17,8 +18,9 @@ $dropdownScrollbarWidth: .9em;
     }
 }
 .makeorder{
-    margin-left: 12em;
+    margin-left: $navbarWidth;
     flex: 1;
+    background-color: rgba(0, 0, 0, .05);
     // display: flex;
     // flex-direction: column;
     &__flex{
@@ -97,7 +99,7 @@ $dropdownScrollbarWidth: .9em;
                     position: relative;
                     label{
                         font-weight: bold;
-                        font-size: .8em;
+                        font-size: 1em;
                         color: #333;
                     }
                     input{
@@ -272,6 +274,14 @@ $dropdownScrollbarWidth: .9em;
                         width: 7em;
                         padding: 0.625em 0.3125em;
                         font-weight: bold;
+                        background-color: #33b249;
+                        color: #fff;
+                        border: none;
+                        cursor: pointer;
+                        &:active{
+                            position: relative;
+                            top: 1px;
+                        }
                     }
                 }
             }
@@ -280,7 +290,7 @@ $dropdownScrollbarWidth: .9em;
     .display-order{
         width: 100%;
         flex: 1;
-        overflow-y: auto;
+        overflow: auto;
         padding: 1em;
     }
     }
